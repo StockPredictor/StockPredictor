@@ -13,7 +13,9 @@ router.post("/signup", async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     user = new User({ username, password: hashedPassword });
     await user.save();
-    res.json({ msg: "Signup successful", user: user.username });
+
+    req.session.user = user.username; // Stores username in session, only expires on logout/timeout
+    res.render("stocks", { title: "account", userID: req.session.user });
   } catch (err) {
     res.status(500).json({ msg: "Server error" });
   }
@@ -29,7 +31,8 @@ router.post("/login", async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ msg: "Invalid credentials" });
 
-    res.json({ msg: "Login successful", user: user.username });
+    req.session.user = user.username; // Stores username in session, only expires on logout/timeout
+    res.render("stocks", { title: "account", userID: req.session.user });
   } catch (err) {
     res.status(500).json({ msg: "Server error" });
   }
