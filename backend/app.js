@@ -14,6 +14,7 @@ app.set('view engine', 'pug');
 app.use(cors());
 app.use(express.json());
 app.use("/api", stockRoutes);
+app.use(express.static("utilities"));
 app.use(express.urlencoded({ extended: true }));
 app.use(
     session({

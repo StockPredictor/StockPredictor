@@ -17,6 +17,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
+    "express-session": "^1.18.1",
     "ml-regression": "^6.2.0",
     "ml-regression-multivariate-linear": "^2.0.4",
     "mongoose": "^8.13.2"
