@@ -1,0 +1,15 @@
+extends template
+
+block content
+    h2 Log in to Your Current Account
+    form(action="/api/login" method="POST")
+        div
+            label(for="username") Username:
+            input(type="text" id="username" name="username" required)
+        div
+            label(for="password") Password:
+            input(type="password" id="password" name="password" required)
+        div
+            button(type="submit") Login
+        div 
+            a(href="/signup") Don't have an account? Sign up here.
