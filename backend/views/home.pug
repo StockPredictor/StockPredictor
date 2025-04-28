@@ -1,7 +1,10 @@
 extends template
 
 block content
-    h2 Welcome to our stock preidctor app, please register an account or login.
-    div
+  .page-wrapper
+    .container
+      h1 Welcome to our Stock Predictor App
+      p.subtitle Please register an account or login below.
+      .buttons
         a.button(href="/login") Login
         a.button(href="/signup") Signup

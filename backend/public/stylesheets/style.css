@@ -1,0 +1,125 @@
+/* Body and page setup */
+body {
+  background: linear-gradient(to bottom, #0f2027, #203a43, #2c5364);
+  color: #e0e0e0;
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Main content wrapper */
+.page-wrapper {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+/* The container for welcome text and buttons */
+.container {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 60px 50px;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  text-align: center;
+  max-width: 600px;
+  width: 100%;
+}
+
+/* Text Styling */
+h1 {
+  font-size: 2.8em;
+  margin-bottom: 20px;
+}
+
+.subtitle {
+  font-size: 1.3em;
+  margin-bottom: 40px;
+  color: #b0bec5;
+}
+
+/* Buttons */
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+}
+
+.button {
+  text-decoration: none;
+  padding: 14px 28px;
+  border: 2px solid #00c6ff;
+  border-radius: 10px;
+  color: #00c6ff;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  font-size: 1em;
+}
+
+.button:hover {
+  background-color: #00c6ff;
+  color: #0f2027;
+  transform: scale(1.05);
+}
+
+/* Footer (optional if you have one) */
+footer {
+  text-align: center;
+  padding: 15px;
+  font-size: 0.9em;
+  color: #b0bec5;
+}
+
+.navbar {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+}
+
+.navbar ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  padding: 0;
+  margin: 0;
+}
+
+.navbar li a {
+  text-decoration: none;
+  color: #00c6ff;
+  font-weight: bold;
+  font-size: 1.1em;
+  transition: 0.3s;
+}
+
+.navbar li a:hover {
+  color: #ffffff;
+}
+
+/* Login link under signup form */
+.login-link {
+  margin-top: 20px;
+}
+
+.login-link p {
+  color: #b0bec5;
+  font-size: 1em;
+}
+
+.login-link a {
+  color: #00c6ff;
+  text-decoration: none;
+  font-weight: bold;
+  margin-left: 5px;
+  transition: 0.3s;
+}
+
+.login-link a:hover {
+  color: #ffffff;
+}

@@ -30,4 +30,10 @@ router.get('/stocks', (req, res) => {
     res.render('stocks', { title: 'Stocks' , userID: req.session.user });
 });
 
+// Route for the stock lookup page
+router.get('/stocklookup', (req, res) => {
+    res.render('stocklookup', { title: 'Stock Lookup' , userID: req.session.user });
+});
+
+
 module.exports = router;
