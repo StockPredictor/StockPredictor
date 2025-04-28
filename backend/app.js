@@ -16,6 +16,7 @@ app.use(express.json());
 app.use("/api", stockRoutes);
 app.use(express.static("utilities"));
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static("public"));
 app.use(
     session({
         secret: process.env.SESSION_SECRET || "01y28nvus09v0nq",

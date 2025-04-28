@@ -1,16 +1,19 @@
-doctype html
-html
-    head
-        title Stock Predictor
-    body
-        header
-            h1 #{title}
-            nav
-                ul
-                    li: a(href="/") Home
-                    li: a(href="/stocks") Stocks
-                    li: a(href="/account") Account
-        main
-            block content
-        footer
-            p © 2023 Stock Predictor. All rights reserved.
+body
+  header
+    link(rel="stylesheet", href="/stylesheets/style.css")
+    h1 Stock Predictor  App 
+    nav.navbar
+      ul
+        li
+          a(href="/") Home
+        li
+          a(href="/stocklookup") Stock Lookup  
+        li
+          a(href="/stocks") Stocks
+        li
+          a(href="/account") Account
+
+  block content
+
+  footer
+    p © 2025 Stock Predictor. Marcos Morales. All rights reserved.
