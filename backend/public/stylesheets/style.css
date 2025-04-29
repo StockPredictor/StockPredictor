@@ -28,9 +28,15 @@ body {
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.18);
   text-align: center;
-  max-width: 600px;
-  width: 100%;
+  max-width: 1200px; /* <-- increased */
+  width: 90%; /* <-- flexibly stretch */
+  min-height: 600px; /* <-- minimum size for "empty" state */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* align content to the top */
 }
+
 
 /* Text Styling */
 h1 {

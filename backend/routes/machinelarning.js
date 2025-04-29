@@ -21,38 +21,53 @@ router.get("/predict", async (req, res) => {
 
     // Prepare training data
     const X = history.map(entry => [entry.open, entry.high, entry.low, entry.volume]);
+    console.log("X", X.length); // Check input data
     const Y = history.map(entry => [entry.close]); // Predict close
 
-    // Train the multivariate linear regression model
+    const MLR = require('ml-regression-multivariate-linear'); 
     const regression = new MLR(X, Y);
 
     // Predict next 126 trading days
     const futurePrices = [];
     let lastInput = [
-    history[history.length - 1].open,
-    history[history.length - 1].high,
-    history[history.length - 1].low,
-    history[history.length - 1].volume
+      history[history.length - 1].open,
+      history[history.length - 1].high,
+      history[history.length - 1].low,
+      history[history.length - 1].volume
     ];
 
     for (let i = 0; i < 126; i++) {
-    // Predict next day's close price based on current input
-    const predictedClose = regression.predict(lastInput)[0];
-    futurePrices.push(predictedClose);
+      const predictedClose = regression.predict(lastInput)[0];
+      futurePrices.push(predictedClose);
 
-    // Update the inputs for next day simulation
-    // Assume:
-    // - Next day's open is previous day's close
-    // - High/Low are adjusted slightly based on previous patterns
-    // - Volume stays roughly similar or can also slightly decay
+      const nextOpen = predictedClose;
+      const nextHigh = predictedClose * 1.01;
+      const nextLow = predictedClose * 0.99;
+      const nextVolume = lastInput[3] * (1 + (Math.random() * 0.02 - 0.01));
 
-    const nextOpen = predictedClose;
-    const nextHigh = predictedClose * 1.01; // Assume 1% higher swing
-    const nextLow = predictedClose * 0.99;  // Assume 1% lower swing
-    const nextVolume = lastInput[3] * (1 + (Math.random() * 0.02 - 0.01)); // Volume changes randomly ±1%
-
-    lastInput = [nextOpen, nextHigh, nextLow, nextVolume];
+      lastInput = [nextOpen, nextHigh, nextLow, nextVolume];
     }
+
+    // NEW: Generate date arrays
+    const today = new Date();
+    const oneYearAgo = new Date();
+    oneYearAgo.setFullYear(today.getFullYear() - 1);
+
+    // Generate actualDates from history itself
+    const actualDates = history.map(entry => {
+      const date = new Date(entry.date || entry.timestamp);
+      return date.toISOString().split('T')[0];
+    });
+
+    // Generate futureDates based off today
+    const futureDates = [];
+    const lastActualDate = new Date();
+    for (let i = 1; i <= futurePrices.length; i++) {
+      const futureDate = new Date(lastActualDate);
+      futureDate.setDate(lastActualDate.getDate() + i);
+      futureDates.push(futureDate.toISOString().split('T')[0]);
+    }
+
 
     const currentPrice = history[history.length - 1].close;
     const finalPredictedPrice = futurePrices[futurePrices.length - 1];
@@ -61,7 +76,9 @@ router.get("/predict", async (req, res) => {
     // Respond
     res.json({
       actual: history.map(entry => entry.close),
+      actualDates: actualDates, 
       future: futurePrices,
+      futureDates: futureDates, // Works now after proper formatting :)
       trend: predictionTrend
     });
   } catch (error) {
@@ -69,5 +86,6 @@ router.get("/predict", async (req, res) => {
     res.status(500).json({ error: "Failed to process prediction" });
   }
 });
+
 
 module.exports = router;
