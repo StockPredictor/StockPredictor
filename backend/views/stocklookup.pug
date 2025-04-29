@@ -10,11 +10,16 @@ block content
           input(type="text" id="ticker" name="ticker" required placeholder="e.g., AAPL")
         .form-group
           button(type="submit" class="button") Predict Stock
-      .result-table-container
-        table#resultsTable(style="display: none; margin-top: 30px; width: 100%")
-          thead
-            tr
-              th Field
-              th Value
-          tbody
+
+      //- Loading message (will be inserted via JS)
+
+      //- Charts
+      #charts-container(style="margin-top: 50px; display: none;")
+        h2 Actual Stock Prices (Past Year)
+        svg#actualChart(width="800", height="400")
+        h2 Predicted Stock Prices (Next 6 Months)
+        svg#futureChart(width="800", height="400")
+
+  // Load D3.js
+  script(src="https://d3js.org/d3.v7.min.js")
   script(src="/scripts/stocklookup.js")
