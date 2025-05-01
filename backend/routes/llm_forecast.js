@@ -2,6 +2,7 @@
 const express = require("express");
 const OpenAI = require("openai");
 const dotenv = require("dotenv");
+const marked = require("marked");
 
 dotenv.config();
 const router = express.Router();
@@ -73,9 +74,10 @@ Final Prediction: $[value]`;
     });
     
     const output = response.output_text || "No output received.";
+    const htmlOutput = marked.parse(output);
     console.log("LLM Analysis:\n", output);
     return res.json({
-      reasoning: output,
+      reasoning: htmlOutput,
     });
 
   } catch (err) {
