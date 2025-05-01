@@ -5,6 +5,7 @@ const stockRoutes = require("./routes/stocks");
 const mlRoutes = require("./routes/machinelarning");
 const session = require("express-session");
 const cors = require("cors");
+const llmForecastRouter = require("./routes/llm_forecast");
 require("dotenv").config();
 
 const app = express();
@@ -28,7 +29,10 @@ app.use(
 
 //routing for API logins
 app.use("/api", authRoutes);
+// Routing for stock data
 app.use("/api", mlRoutes);
+// Routing for machine learning predictions
+app.use("/api", llmForecastRouter);
 
 // Routing for website pages
 var pages = require('./routes/pages');
