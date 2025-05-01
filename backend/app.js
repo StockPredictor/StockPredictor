@@ -3,6 +3,7 @@ const connectDB = require("./config/mongo");
 const authRoutes = require("./routes/auth");
 const stockRoutes = require("./routes/stocks");
 const mlRoutes = require("./routes/machinelarning");
+const predictionRoutes = require("./routes/predictions");
 const session = require("express-session");
 const cors = require("cors");
 const llmForecastRouter = require("./routes/llm_forecast");
@@ -33,7 +34,8 @@ app.use("/api", authRoutes);
 app.use("/api", mlRoutes);
 // Routing for machine learning predictions
 app.use("/api", llmForecastRouter);
-
+// Routing for predictions
+app.use("/api", predictionRoutes);
 // Routing for website pages
 var pages = require('./routes/pages');
 app.use(express.urlencoded({extended: true}));

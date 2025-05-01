@@ -107,55 +107,67 @@ def run_prediction_pipeline(history_data):
     sequence_length = 25
     X = []
     y = []
-    for i in range(sequence_length, len(scaled_data)):
+    forecast_horizon = 5  # how many days ahead to forecast
+    for i in range(sequence_length, len(scaled_data) - forecast_horizon):
         X.append(scaled_data[i-sequence_length:i])
-        y.append(scaled_data[i, 4])  # Close price is the target
-
+        y.append(scaled_data[i:i+forecast_horizon, 4])  # forecast next 5 closes
     X, y = np.array(X), np.array(y)
 
     # LSTM Model
     model = Sequential()
     model.add(LSTM(50, return_sequences=True, input_shape=(X.shape[1], X.shape[2])))
     model.add(LSTM(50))
-    model.add(Dense(1))
+    model.add(Dense(forecast_horizon)) # output 5 days ahead
     model.compile(optimizer='adam', loss='mse')
     model.fit(X, y, epochs=20, batch_size=16, verbose=0)
 
     # Begin future prediction
+    # Begin future prediction
     future = []
     last_window = scaled_data[-sequence_length:]
 
-    for _ in range(356):
+    forecast_horizon = 25  # number of days to predict at once
+    volatility_strength = 0.01  # moderate noise once per window
+
+    for _ in range(0, 356, forecast_horizon):
         input_seq = np.expand_dims(last_window, axis=0)
-        predicted_scaled = model.predict(input_seq, verbose=0)[0][0]
+        predicted_scaled = model.predict(input_seq, verbose=0)[0]
 
-        # Create next day scaled input
-        next_row = np.copy(last_window[-1])
-        next_row[0] = next_row[4]  # open = previous close
-        next_row[1] = max(next_row[1], predicted_scaled)  # high
-        next_row[2] = min(next_row[2], predicted_scaled)  # low
-        next_row[3] *= 0.99  # decay volume
-        next_row[4] = predicted_scaled  # close = prediction
+        # Sample noise once for this window
+        noise = np.random.normal(0, volatility_strength)
 
-        future.append(predicted_scaled)
-        last_window = np.append(last_window[1:], [next_row], axis=0)
+        for pred in predicted_scaled:
+            noisy_pred = pred + noise
+            next_row = np.copy(last_window[-1])
+            next_row[0] = next_row[4]
+            next_row[1] = max(next_row[1], noisy_pred)
+            next_row[2] = min(next_row[2], noisy_pred)
+            next_row[3] *= 0.99
+            next_row[4] = noisy_pred
+
+            future.append(noisy_pred)
+            last_window = np.append(last_window[1:], [next_row], axis=0)
 
     # Inverse transform for real values
     full_close = np.concatenate([scaled_data[:, 4], np.array(future)])
     dummy_full = np.tile(scaled_data[-1], (len(full_close), 1))
-    dummy_full[:, 4] = full_close  # only close changes
+    dummy_full[:, 4] = full_close
     inverse_full = scaler.inverse_transform(dummy_full)
     future_close = inverse_full[-356:, 4]
 
-    trend = "rise" if future_close[-1] > actual[-1] else "fall"
+    # Apply moving average smoothing
+    smoothed_future_close = pd.Series(future_close).rolling(window=7, min_periods=1).mean().values
+
+    trend = "rise" if smoothed_future_close[-1] > actual[-1] else "fall"
 
     return jsonify({
         "actual": actual,
         "actualDates": actual_dates,
-        "future": future_close.tolist(),
+        "future": smoothed_future_close.tolist(),
         "futureDates": [(df["date"].max() + timedelta(days=i+1)).strftime("%Y-%m-%d") for i in range(356)],
         "trend": trend
     })
+
 
 
 # ===== Server Start =====
