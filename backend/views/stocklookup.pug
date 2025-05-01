@@ -5,10 +5,10 @@ block content
     .container
       h1 Stock Predictor Lookup
       form(id="stockForm")
-        .form-group
+        .form-query
           label(for="ticker") Enter Stock Ticker:
           input(type="text" id="ticker" name="ticker" required placeholder="e.g., AAPL")
-        .form-group
+        .form-submit
           button(type="submit" class="button") Predict Stock
 
       //- Loading message (will be inserted via JS)

@@ -5,13 +5,13 @@ block content
     .container
       h1 Log in to Your Account
       form(action="/api/login" method="POST" class="form")
-        .form-group
-          label(for="username") Username
+        .form-query
+          label(for="username") Username:
           input(type="text" id="username" name="username" required)
-        .form-group
-          label(for="password") Password
+        .form-query
+          label(for="password") Password:
           input(type="password" id="password" name="password" required)
-        .form-group
+        .form-submit
           button(type="submit" class="button") Login
       .signup-link
         p

@@ -1,0 +1,12 @@
+extends template
+
+block content
+  .page-wrapper
+    .container
+      h1 Change Your Username
+      form(action="/api/changeuser" method="POST" class="form")
+        .form-query
+          label(for="newUsername") New Username:
+          input(type="text" id="newUsername" name="newUsername" required)
+        .form-submit
+          button(type="submit" class="button") Update Username

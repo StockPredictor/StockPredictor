@@ -1,4 +1,14 @@
 extends template 
 
 block content 
-    p Welcome to your account page, #{userID}!
+    .page-wrapper 
+        .container
+            p Welcome to your account page, #{userID.username}!
+            p Here you can manage your account details.
+            p We will also display any saved stock data here.
+            .buttons
+                a.button(href="/logout") Log out
+            .buttons
+                a.button(href="/changeuser") Change your username 
+            .buttons
+                a.button(href="/changepass") Change your password 

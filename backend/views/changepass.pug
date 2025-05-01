@@ -1,0 +1,18 @@
+extends template
+
+block content
+  .page-wrapper
+    .container
+      h1 Change Your Password
+      form(action="/api/changepass" method="POST" class="form")
+        .form-query
+          label(for="oldPassword") Old Password:
+          input(type="password" id="oldPassword" name="oldPassword" required)
+        .form-query
+          label(for="newPassword") New Password:
+          input(type="password" id="newPassword" name="newPassword" required)
+        .form-query
+          label(for="confirmPassword") Confirm New Password:
+          input(type="password" id="confirmPassword" name="confirmPassword" required)
+        .form-submit
+          button(type="submit" class="button") Update Password

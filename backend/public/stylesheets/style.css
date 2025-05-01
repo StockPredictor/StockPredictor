@@ -56,7 +56,6 @@ h1 {
   justify-content: center;
   gap: 25px;
 }
-
 .button {
   text-decoration: none;
   padding: 14px 28px;
@@ -66,13 +65,14 @@ h1 {
   font-weight: bold;
   transition: all 0.3s ease;
   font-size: 1em;
+  margin-bottom: 20px;
 }
-
 .button:hover {
   background-color: #00c6ff;
   color: #0f2027;
   transform: scale(1.05);
 }
+
 
 /* Footer (optional if you have one) */
 footer {
@@ -107,7 +107,47 @@ footer {
 .navbar li a:hover {
   color: #ffffff;
 }
+/* Media Queries for Responsiveness *//* Forms inside container */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 30px;
+}
 
+/* Individual form groups */
+.form-query {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+.form-submit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px !important;
+}
+/* Labels */
+label {
+  font-size: 1.1em;
+  margin-bottom: 8px;
+  color: #b0bec5;
+}
+
+/* Inputs */
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 12px 15px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  font-size: 1em;
+  outline: none;
+  transition: 0.3s;
+}
 /* Login link under signup form */
 .login-link {
   margin-top: 20px;
