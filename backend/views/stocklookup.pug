@@ -20,6 +20,10 @@ block content
         h2 Predicted Stock Prices (Next 6 Months)
         svg#futureChart(width="800", height="400")
 
+        button#deepSearchBtn(style="margin-top: 30px; display: none;") Perform Deep Search
+        #deepSearchResult(style="margin-top: 20px; display: none;" class="deep-search-output")
+
+
   // Load D3.js
   script(src="https://d3js.org/d3.v7.min.js")
   script(src="/scripts/stocklookup.js")

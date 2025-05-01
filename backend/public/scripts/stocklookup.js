@@ -84,3 +84,77 @@ function drawChart(svgSelector, prices, dates, label) {
     .style('font-size', '16px')
     .text(label);
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("stockForm");
+  const deepSearchBtn = document.getElementById("deepSearchBtn");
+  const deepSearchOutput = document.getElementById("deepSearchResult");
+
+  let currentTicker = null;
+  let futureUseData = null; // Declare futureUseData outside the event listeners
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const ticker = document.getElementById("ticker").value.toUpperCase();
+    currentTicker = ticker;
+
+    // Clear and hide results
+    deepSearchBtn.style.display = "none";
+    deepSearchOutput.style.display = "none";
+    deepSearchOutput.innerHTML = "";
+
+    try {
+      const res = await fetch(`/api/predict?ticker=${ticker}`);
+      const data = await res.json();
+      futureUseData = data; // Assign data to futureUseData
+
+      // Render your D3 charts here (omitted)
+
+      // Show Deep Search button
+      deepSearchBtn.style.display = "inline-block";
+    } catch (err) {
+      console.error("Prediction error:", err);
+    }
+  });
+
+  deepSearchBtn.addEventListener("click", async () => {
+    if (!currentTicker) return;
+
+    deepSearchBtn.innerText = "Analyzing...";
+    deepSearchBtn.disabled = true;
+
+    try {
+      const res = await fetch('/api/llm-forecast', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          ticker: currentTicker,
+          future: futureUseData?.future || []
+        })
+      });
+      console.log("Response status:", res); // Log the response status
+      const data = await res.json();
+
+      if (data.reasoning) {
+        deepSearchOutput.innerHTML = `
+          <h3>LLM Financial Analysis</h3>
+          <div style="white-space: pre-line; line-height: 1.5;">${data.reasoning}</div>
+        `;
+        deepSearchOutput.style.display = "block";
+      } else {
+        deepSearchOutput.innerHTML = "<p>Unable to retrieve deep analysis at this time.</p>";
+        deepSearchOutput.style.display = "block";
+      }
+    } catch (err) {
+      console.error("Deep search error:", err);
+      deepSearchOutput.innerHTML = "<p>Server error occurred during deep search.</p>";
+      deepSearchOutput.style.display = "block";
+    }
+
+    deepSearchBtn.innerText = "Perform Deep Search";
+    deepSearchBtn.disabled = false;
+  });
+});
+
