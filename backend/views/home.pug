@@ -4,7 +4,10 @@ block content
   .page-wrapper
     .container
       h1 Welcome to our Stock Predictor App
-      p.subtitle Please register an account or login below.
+      p.subtitle Our app allows you to view current stock data, predict future trends, and create your very own investment portfolio.
       .buttons
-        a.button(href="/login") Login
+        if userID 
+          a.button(href="/logout") Log out
+        else
+          a.button(href="/login") Log in
         a.button(href="/signup") Signup
