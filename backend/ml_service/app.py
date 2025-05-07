@@ -15,7 +15,7 @@ load_dotenv()
 app = Flask(__name__)
 
 # Configuration
-POLYGON_API_KEY = os.getenv("POLYGON_API_KEY")
+POLYGON_API_KEY = "BgMelAooaGfwEw4UjRCed9dnOA9WZ8X3"
 BASE_URL = "https://api.polygon.io"
 
 
